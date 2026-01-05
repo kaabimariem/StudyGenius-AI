@@ -1,0 +1,67 @@
+<div class="ai-analysis-container">
+  <h1>Analyse de Texte avec IA</h1>
+
+  <div class="analysis-tabs">
+    <div class="tab-content">
+      <h2>Analyser un texte</h2>
+      <form [formGroup]="analysisForm" (ngSubmit)="analyzeText()">
+        <div class="form-group">
+          <label for="text">Collez votre texte ici</label>
+          <textarea
+            id="text"
+            formControlName="text"
+            rows="10"
+            class="form-control"
+            placeholder="Collez votre texte à analyser..."
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="analysisForm.invalid || loading">
+          {{ loading ? 'Analyse en cours...' : 'Analyser' }}
+        </button>
+      </form>
+    </div>
+
+    <div class="tab-content">
+      <h2>Analyser un document</h2>
+      <form [formGroup]="fileForm" (ngSubmit)="analyzeDocument()">
+        <div class="form-group">
+          <label for="file">Sélectionnez un fichier (PDF, DOCX)</label>
+          <input
+            type="file"
+            id="file"
+            accept=".pdf,.docx"
+            (change)="onFileSelected($event)"
+            class="form-control"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="fileForm.invalid || loading">
+          {{ loading ? 'Analyse en cours...' : 'Analyser le document' }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="result" class="result-container">
+    <h2>Résultat de l'analyse</h2>
+    <div class="result-stats">
+      <div class="stat">
+        <span class="stat-label">Mots:</span>
+        <span class="stat-value">{{ result.wordCount }}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Phrases:</span>
+        <span class="stat-value">{{ result.sentences }}</span>
+      </div>
+    </div>
+    <div class="summary">
+      <h3>Résumé</h3>
+      <p>{{ result.summary }}</p>
+    </div>
+  </div>
+</div>
+
+

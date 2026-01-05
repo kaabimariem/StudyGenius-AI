@@ -1,0 +1,25 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Tableau de bord - Administrateur</h1>
+    <div class="user-info">
+      <span>Bienvenue, {{ currentUser?.firstName }} {{ currentUser?.lastName }}</span>
+      <button class="btn btn-secondary" (click)="logout()">Déconnexion</button>
+    </div>
+  </header>
+
+  <nav class="dashboard-nav">
+    <a routerLink="/admin" routerLinkActive="active">Accueil</a>
+    <a routerLink="/admin/courses" routerLinkActive="active">Gestion des Cours</a>
+    <a routerLink="/admin/exams" routerLinkActive="active">Gestion des Examens</a>
+    <a routerLink="/admin/users" routerLinkActive="active">Gestion des Utilisateurs</a>
+  </nav>
+
+  <main class="dashboard-content">
+    <div class="admin-panel">
+      <h2>Panneau d'administration</h2>
+      <p>Gérez tous les aspects de la plateforme pédagogique.</p>
+    </div>
+  </main>
+</div>
+
+

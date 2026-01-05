@@ -1,0 +1,134 @@
+<div class="qcm-generator-container">
+  <h1>Générateur de QCM avec IA</h1>
+  <p *ngIf="courseTitle" class="course-title">📚 Cours: {{ courseTitle }}</p>
+  <p class="subtitle">Uploadez un document ou collez du texte pour générer automatiquement un QCM avec correction</p>
+
+  <div *ngIf="!qcmResponse" class="input-section">
+    <div class="form-group">
+      <label for="fileInput">Ou sélectionnez un document (PDF, TXT, MD, CSV)</label>
+      <input
+        type="file"
+        id="fileInput"
+        accept=".pdf,.txt,.md,.csv,application/pdf,text/plain"
+        (change)="onFileSelected($event)"
+        class="form-control"
+      />
+      <small class="form-hint">Les fichiers PDF et texte sont supportés. Les fichiers DOCX ne sont pas encore supportés.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="documentText">Ou collez le texte du document</label>
+      <textarea
+        id="documentText"
+        [(ngModel)]="documentText"
+        class="form-control"
+        rows="10"
+        placeholder="Collez ici le texte du document à partir duquel vous voulez générer un QCM..."
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="numberOfQuestions">Nombre de questions</label>
+      <input
+        type="number"
+        id="numberOfQuestions"
+        [(ngModel)]="numberOfQuestions"
+        min="1"
+        max="20"
+        class="form-control"
+      />
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-error">
+      {{ errorMessage }}
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="generateQcm()"
+      [disabled]="loading || (!documentText && !selectedFile)"
+    >
+      {{ loading ? 'Génération en cours...' : 'Générer le QCM' }}
+    </button>
+  </div>
+
+  <div *ngIf="qcmResponse && !showResults" class="qcm-section">
+    <div class="qcm-header">
+      <h2>QCM Généré</h2>
+      <p class="summary">{{ qcmResponse.documentSummary }}</p>
+      <button class="btn btn-secondary" (click)="resetQcm()">Nouveau QCM</button>
+    </div>
+
+    <form [formGroup]="qcmForm" (ngSubmit)="submitQcm()">
+      <div class="questions-list" formArrayName="answers">
+        <div class="question-item" *ngFor="let question of qcmResponse.questions; let i = index" [formGroupName]="i">
+          <h3>Question {{ i + 1 }}</h3>
+          <p class="question-text">{{ question.question }}</p>
+
+          <div class="options-list">
+            <label *ngFor="let option of question.options; let j = index" class="option-label">
+              <input
+                type="radio"
+                formControlName="selectedAnswer"
+                [value]="option"
+                [name]="'question_' + i"
+              />
+              <span>{{ option }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="qcmForm.invalid">
+          Soumettre et voir les résultats
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="showResults && qcmResult" class="results-section">
+    <div class="results-header">
+      <h2>Résultats du QCM</h2>
+      <div class="score-display">
+        <span class="score">{{ qcmResult.score }}/{{ qcmResult.totalQuestions }}</span>
+        <span class="percentage">
+          ({{ ((qcmResult.score / qcmResult.totalQuestions) * 100).toFixed(0) }}%)
+        </span>
+      </div>
+    </div>
+
+    <div class="results-list">
+      <div
+        class="result-item"
+        *ngFor="let answer of qcmResult.answers; let i = index"
+        [class.correct]="answer.selectedAnswer === qcmResult.questions[i].correctAnswer"
+        [class.incorrect]="answer.selectedAnswer !== qcmResult.questions[i].correctAnswer"
+      >
+        <h3>Question {{ i + 1 }}</h3>
+        <p class="question-text">{{ qcmResult.questions[i].question }}</p>
+        <div class="answer-info">
+          <p>
+            <strong>Votre réponse:</strong>
+            <span [class.correct-answer]="answer.selectedAnswer === qcmResult.questions[i].correctAnswer"
+                  [class.wrong-answer]="answer.selectedAnswer !== qcmResult.questions[i].correctAnswer">
+              {{ answer.selectedAnswer || 'Aucune réponse' }}
+            </span>
+          </p>
+          <p>
+            <strong>Réponse correcte:</strong>
+            <span class="correct-answer">{{ qcmResult.questions[i].correctAnswer }}</span>
+          </p>
+          <p class="explanation">
+            <strong>Explication:</strong> {{ qcmResult.questions[i].explanation }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" (click)="resetQcm()">Créer un nouveau QCM</button>
+    </div>
+  </div>
+</div>
+

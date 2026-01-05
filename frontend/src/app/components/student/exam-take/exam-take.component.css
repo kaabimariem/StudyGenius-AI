@@ -1,0 +1,139 @@
+.exam-take-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.exam-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.back-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.timer {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.timer.warning {
+  background: #e74c3c;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.exam-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.exam-content h1 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.exam-content > p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.questions-list {
+  margin-bottom: 30px;
+}
+
+.question-item {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.question-item:last-child {
+  border-bottom: none;
+}
+
+.question-item h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.question-item > p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.question-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.option-label:hover {
+  background-color: #f5f5f5;
+}
+
+.option-label input[type="radio"] {
+  cursor: pointer;
+}
+
+.question-input textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.exam-actions {
+  text-align: center;
+}
+
+.btn {
+  padding: 15px 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #667eea;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #5568d3;
+}
+
+

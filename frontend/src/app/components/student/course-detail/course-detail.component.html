@@ -1,0 +1,52 @@
+<div class="course-detail-container">
+  <a routerLink="/student" class="back-link">← Retour</a>
+
+  <div *ngIf="course" class="course-detail">
+    <h1>{{ course.title }}</h1>
+    <p class="course-code">Code: {{ course.code }}</p>
+    <p class="course-description">{{ course.description }}</p>
+    <p class="teacher-info">Enseignant: {{ course.teacher.firstName }} {{ course.teacher.lastName }}</p>
+
+    <section class="qcms-section" *ngIf="qcms.length > 0">
+      <h2>QCMs disponibles</h2>
+      <div class="qcms-list">
+        <div class="qcm-item" *ngFor="let qcm of qcms">
+          <div class="qcm-info">
+            <h3>QCM généré le {{ qcm.createdAt | date:'short' }}</h3>
+            <p class="qcm-meta">{{ qcm.numberOfQuestions }} questions</p>
+            <p class="qcm-summary">{{ qcm.documentSummary }}</p>
+          </div>
+          <button class="btn btn-primary" (click)="takeQcm(qcm)">
+            📝 Passer ce QCM
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="documents-section">
+      <div class="section-header">
+        <h2>Documents</h2>
+        <button
+          class="btn btn-primary"
+          (click)="generateQcmFromCourse()"
+          [disabled]="generatingQcm || documents.length === 0"
+        >
+          {{ generatingQcm ? 'Génération en cours...' : '🧠 Générer un nouveau QCM avec IA' }}
+        </button>
+      </div>
+      <div *ngIf="documents.length > 0; else noDocuments" class="documents-list">
+        <div class="document-item" *ngFor="let doc of documents">
+          <div class="document-info">
+            <span class="document-name">{{ doc.originalName }}</span>
+            <span class="document-size">({{ (doc.size / 1024).toFixed(2) }} KB)</span>
+          </div>
+          <button class="btn btn-primary" (click)="downloadDocument(doc)">Télécharger</button>
+        </div>
+      </div>
+      <ng-template #noDocuments>
+        <p>Aucun document disponible pour ce cours.</p>
+      </ng-template>
+    </section>
+  </div>
+</div>
+

@@ -1,0 +1,216 @@
+<div class="create-container">
+  <div class="create-header">
+    <h1>Créer un nouvel examen</h1>
+    <a routerLink="/teacher" class="back-link">← Retour</a>
+  </div>
+
+  <div class="create-form-container">
+    <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h2>Informations générales</h2>
+
+        <div class="form-group">
+          <label for="title">Titre de l'examen *</label>
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            class="form-control"
+            placeholder="Ex: Examen final - Programmation"
+            [class.invalid]="examForm.get('title')?.invalid && examForm.get('title')?.touched"
+          />
+          <div *ngIf="examForm.get('title')?.invalid && examForm.get('title')?.touched" class="error">
+            Le titre est requis (minimum 3 caractères)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description *</label>
+          <textarea
+            id="description"
+            formControlName="description"
+            class="form-control"
+            rows="3"
+            placeholder="Décrivez l'examen..."
+            [class.invalid]="examForm.get('description')?.invalid && examForm.get('description')?.touched"
+          ></textarea>
+          <div *ngIf="examForm.get('description')?.invalid && examForm.get('description')?.touched" class="error">
+            La description est requise (minimum 10 caractères)
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="startDate">Date de début *</label>
+            <input
+              type="datetime-local"
+              id="startDate"
+              formControlName="startDate"
+              class="form-control"
+              [class.invalid]="examForm.get('startDate')?.invalid && examForm.get('startDate')?.touched"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="endDate">Date de fin *</label>
+            <input
+              type="datetime-local"
+              id="endDate"
+              formControlName="endDate"
+              class="form-control"
+              [class.invalid]="examForm.get('endDate')?.invalid && examForm.get('endDate')?.touched"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="duration">Durée (minutes) *</label>
+            <input
+              type="number"
+              id="duration"
+              formControlName="duration"
+              class="form-control"
+              min="1"
+              [class.invalid]="examForm.get('duration')?.invalid && examForm.get('duration')?.touched"
+            />
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" formControlName="isActive" />
+              Activer l'examen immédiatement
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Questions</h2>
+          <button type="button" class="btn btn-sm btn-primary" (click)="addQuestion()">
+            + Ajouter une question
+          </button>
+        </div>
+
+        <div class="questions-list">
+          <div class="question-item" *ngFor="let question of questions.controls; let i = index" [formGroupName]="i">
+            <div class="question-header">
+              <h3>Question {{ i + 1 }}</h3>
+              <button
+                type="button"
+                class="btn-remove"
+                (click)="removeQuestion(i)"
+                *ngIf="questions.length > 1"
+              >
+                ×
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label>Texte de la question *</label>
+              <textarea
+                formControlName="text"
+                class="form-control"
+                rows="2"
+                placeholder="Entrez la question..."
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Type de question *</label>
+                <select formControlName="type" class="form-control" (change)="onQuestionTypeChange(i, $event)">
+                  <option [value]="QuestionType.MULTIPLE_CHOICE">Choix multiple (QCM)</option>
+                  <option [value]="QuestionType.TRUE_FALSE">Vrai/Faux</option>
+                  <option [value]="QuestionType.SHORT_ANSWER">Réponse courte</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Points *</label>
+                <input
+                  type="number"
+                  formControlName="points"
+                  class="form-control"
+                  min="1"
+                />
+              </div>
+            </div>
+
+            <div *ngIf="question.get('type')?.value === QuestionType.MULTIPLE_CHOICE" class="options-section">
+              <label>Options de réponse *</label>
+              <div formArrayName="options">
+                <div *ngFor="let option of getQuestionOptions(i).controls; let j = index" class="option-item">
+                  <input
+                    type="text"
+                    [formControlName]="j"
+                    class="form-control"
+                    [placeholder]="'Option ' + (j + 1)"
+                  />
+                  <button
+                    type="button"
+                    class="btn-remove"
+                    (click)="removeOption(i, j)"
+                    *ngIf="getQuestionOptions(i).length > 2"
+                  >
+                    ×
+                  </button>
+                </div>
+                <button type="button" class="btn btn-sm btn-secondary" (click)="addOption(i)">
+                  + Ajouter une option
+                </button>
+              </div>
+              <div class="form-group">
+                <label>Réponse correcte *</label>
+                <input
+                  type="text"
+                  formControlName="correctAnswer"
+                  class="form-control"
+                  placeholder="Entrez la réponse correcte (exactement comme dans les options)"
+                />
+              </div>
+            </div>
+
+            <div *ngIf="question.get('type')?.value === QuestionType.TRUE_FALSE" class="form-group">
+              <label>Réponse correcte *</label>
+              <select formControlName="correctAnswer" class="form-control">
+                <option value="">Sélectionnez...</option>
+                <option value="true">Vrai</option>
+                <option value="false">Faux</option>
+              </select>
+            </div>
+
+            <div *ngIf="question.get('type')?.value === QuestionType.SHORT_ANSWER" class="form-group">
+              <label>Réponse correcte *</label>
+              <input
+                type="text"
+                formControlName="correctAnswer"
+                class="form-control"
+                placeholder="Entrez la réponse attendue"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="examForm.invalid || questions.length === 0">
+          Créer l'examen
+        </button>
+        <button type="button" class="btn btn-secondary" routerLink="/teacher">
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

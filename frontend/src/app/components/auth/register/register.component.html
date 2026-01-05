@@ -1,0 +1,85 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2>Inscription</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          [class.invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+        />
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
+          Email invalide
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+        />
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
+          Mot de passe requis (minimum 6 caractères)
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">Prénom</label>
+        <input
+          type="text"
+          id="firstName"
+          formControlName="firstName"
+          class="form-control"
+          [class.invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+        />
+        <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="error">
+          Prénom requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Nom</label>
+        <input
+          type="text"
+          id="lastName"
+          formControlName="lastName"
+          class="form-control"
+          [class.invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+        />
+        <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="error">
+          Nom requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Rôle</label>
+        <select id="role" formControlName="role" class="form-control">
+          <option [value]="UserRole.STUDENT">Étudiant</option>
+          <option [value]="UserRole.TEACHER">Enseignant</option>
+          <option [value]="UserRole.ADMIN">Administrateur</option>
+        </select>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+        S'inscrire
+      </button>
+    </form>
+
+    <p class="login-link">
+      Déjà un compte ? <a routerLink="/login">Se connecter</a>
+    </p>
+  </div>
+</div>
+
+

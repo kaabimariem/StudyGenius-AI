@@ -1,0 +1,109 @@
+<div class="course-detail-container">
+  <div class="course-header">
+    <a routerLink="/teacher" class="back-link">← Retour</a>
+    <div class="actions">
+      <button class="btn btn-danger" (click)="deleteCourse()">Supprimer le cours</button>
+    </div>
+  </div>
+
+  <div *ngIf="course" class="course-detail">
+    <div class="course-info">
+      <h1>{{ course.title }}</h1>
+      <p class="course-code">Code: {{ course.code }}</p>
+      <p class="course-description">{{ course.description }}</p>
+      <div class="course-meta">
+        <span class="meta-item">Créé le: {{ course.createdAt | date:'short' }}</span>
+        <span class="meta-item" [class.active]="course.isActive" [class.inactive]="!course.isActive">
+          {{ course.isActive ? 'Actif' : 'Inactif' }}
+        </span>
+      </div>
+    </div>
+
+    <section class="qcms-section" *ngIf="qcms.length > 0">
+      <h2>QCMs générés pour ce cours</h2>
+      <div class="qcms-list">
+        <div class="qcm-item" *ngFor="let qcm of qcms">
+          <div class="qcm-info">
+            <h3>QCM généré le {{ qcm.createdAt | date:'short' }}</h3>
+            <p class="qcm-meta">{{ qcm.numberOfQuestions }} questions</p>
+            <p class="qcm-summary">{{ qcm.documentSummary }}</p>
+          </div>
+          <button class="btn btn-primary" (click)="takeQcm(qcm)">
+            📝 Voir/Passer ce QCM
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="documents-section">
+      <div class="section-header">
+        <h2>Documents du cours</h2>
+        <div class="header-actions">
+          <button
+            class="btn btn-primary"
+            (click)="generateQcmFromCourse()"
+            [disabled]="generatingQcm || documents.length === 0"
+          >
+            {{ generatingQcm ? 'Génération...' : '🧠 Générer QCM avec IA' }}
+          </button>
+          <div class="upload-section">
+          <input
+            type="file"
+            id="fileInput"
+            multiple
+            accept=".pdf,.doc,.docx"
+            (change)="onFileSelected($event)"
+            class="file-input"
+            [disabled]="uploading"
+          />
+          <label for="fileInput" class="btn btn-primary" [class.disabled]="uploading">
+            {{ uploading ? 'Upload en cours...' : '+ Ajouter des documents' }}
+          </label>
+          <button
+            *ngIf="selectedFiles.length > 0"
+            class="btn btn-secondary"
+            (click)="uploadDocuments()"
+            [disabled]="uploading"
+          >
+            Uploader ({{ selectedFiles.length }})
+          </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedFiles.length > 0" class="selected-files">
+        <p>Fichiers sélectionnés :</p>
+        <ul>
+          <li *ngFor="let file of selectedFiles">{{ file.name }}</li>
+        </ul>
+      </div>
+
+      <div *ngIf="documents.length > 0; else noDocuments" class="documents-list">
+        <div class="document-item" *ngFor="let doc of documents">
+          <div class="document-info">
+            <div class="document-name">{{ doc.originalName }}</div>
+            <div class="document-meta">
+              <span class="document-size">({{ (doc.size / 1024).toFixed(2) }} KB)</span>
+              <span class="document-date">Ajouté le: {{ doc.createdAt | date:'short' }}</span>
+            </div>
+          </div>
+          <div class="document-actions">
+            <button class="btn btn-primary btn-sm" (click)="downloadDocument(doc)">
+              📥 Télécharger
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteDocument(doc)">
+              🗑️ Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+      <ng-template #noDocuments>
+        <div class="no-documents">
+          <p>Aucun document disponible pour ce cours.</p>
+          <p class="hint">Utilisez le bouton "Ajouter des documents" pour uploader des fichiers.</p>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+</div>
+

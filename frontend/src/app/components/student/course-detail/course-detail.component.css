@@ -1,0 +1,172 @@
+.course-detail-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.course-detail {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-detail h1 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.course-code {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.course-description {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.teacher-info {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.qcms-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.qcms-section h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.qcms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.qcm-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f0f7ff;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.qcm-info h3 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.qcm-meta {
+  margin: 5px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.qcm-summary {
+  margin: 8px 0 0 0;
+  color: #888;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.documents-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+.documents-section h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.document-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+.document-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.document-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.document-size {
+  font-size: 12px;
+  color: #999;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #667eea;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #5568d3;
+}
+

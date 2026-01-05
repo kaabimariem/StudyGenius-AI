@@ -1,0 +1,59 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Tableau de bord - Enseignant</h1>
+    <div class="user-info">
+      <span>Bienvenue, {{ currentUser?.firstName }} {{ currentUser?.lastName }}</span>
+      <button class="btn btn-secondary" (click)="logout()">Déconnexion</button>
+    </div>
+  </header>
+
+  <nav class="dashboard-nav">
+    <a routerLink="/teacher" routerLinkActive="active">Accueil</a>
+    <a routerLink="/teacher/courses" routerLinkActive="active">Mes Cours</a>
+    <a routerLink="/teacher/exams" routerLinkActive="active">Mes Examens</a>
+    <a routerLink="/teacher/qcm-generator" routerLinkActive="active">Générateur QCM</a>
+  </nav>
+
+  <main class="dashboard-content">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>{{ courses.length }}</h3>
+        <p>Mes Cours</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ exams.length }}</h3>
+        <p>Mes Examens</p>
+      </div>
+    </div>
+
+    <section class="courses-section">
+      <h2>Mes Cours</h2>
+      <a routerLink="/teacher/courses/new" class="btn btn-primary">Créer un nouveau cours</a>
+      <div class="courses-grid" *ngIf="courses.length > 0; else noCourses">
+        <div class="course-card" *ngFor="let course of courses" [routerLink]="['/teacher/courses', course.id]">
+          <h3>{{ course.title }}</h3>
+          <p>{{ course.description }}</p>
+          <span class="course-code">{{ course.code }}</span>
+        </div>
+      </div>
+      <ng-template #noCourses>
+        <p>Aucun cours créé pour le moment.</p>
+      </ng-template>
+    </section>
+
+    <section class="exams-section">
+      <h2>Mes Examens</h2>
+      <a routerLink="/teacher/exams/new" class="btn btn-primary">Créer un nouvel examen</a>
+      <div class="exams-list" *ngIf="exams.length > 0; else noExams">
+        <div class="exam-card" *ngFor="let exam of exams" [routerLink]="['/teacher/exams', exam.id]">
+          <h3>{{ exam.title }}</h3>
+          <p>{{ exam.description }}</p>
+        </div>
+      </div>
+      <ng-template #noExams>
+        <p>Aucun examen créé pour le moment.</p>
+      </ng-template>
+    </section>
+  </main>
+</div>
+

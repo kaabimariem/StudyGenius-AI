@@ -1,0 +1,66 @@
+<div class="exam-take-container">
+  <div class="exam-header">
+    <a routerLink="/student" class="back-link">← Retour</a>
+    <div class="timer" [class.warning]="timeRemaining < 300">
+      Temps restant: {{ getTimeDisplay() }}
+    </div>
+  </div>
+
+  <div *ngIf="exam" class="exam-content">
+    <h1>{{ exam.title }}</h1>
+    <p>{{ exam.description }}</p>
+
+    <form [formGroup]="examForm" (ngSubmit)="submitExam()">
+      <div class="questions-list">
+        <div class="question-item" *ngFor="let question of exam.questions; let i = index">
+          <h3>Question {{ i + 1 }} ({{ question.points }} points)</h3>
+          <p>{{ question.text }}</p>
+
+          <div *ngIf="question.type === QuestionType.MULTIPLE_CHOICE" class="question-options">
+            <label *ngFor="let option of question.options" class="option-label">
+              <input
+                type="radio"
+                [formControlName]="'question_' + question.id"
+                [value]="option"
+              />
+              {{ option }}
+            </label>
+          </div>
+
+          <div *ngIf="question.type === QuestionType.TRUE_FALSE" class="question-options">
+            <label class="option-label">
+              <input
+                type="radio"
+                [formControlName]="'question_' + question.id"
+                value="true"
+              />
+              Vrai
+            </label>
+            <label class="option-label">
+              <input
+                type="radio"
+                [formControlName]="'question_' + question.id"
+                value="false"
+              />
+              Faux
+            </label>
+          </div>
+
+          <div *ngIf="question.type === QuestionType.SHORT_ANSWER" class="question-input">
+            <textarea
+              [formControlName]="'question_' + question.id"
+              rows="3"
+              placeholder="Votre réponse..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="exam-actions">
+        <button type="submit" class="btn btn-primary">Soumettre l'examen</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
