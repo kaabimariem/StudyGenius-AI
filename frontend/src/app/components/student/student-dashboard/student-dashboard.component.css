@@ -4,7 +4,7 @@
 }
 
 .dashboard-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f84735;
   color: white;
   padding: 20px 40px;
   display: flex;
@@ -40,8 +40,8 @@
 
 .dashboard-nav a:hover,
 .dashboard-nav a.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
+  color: #f84735;
+  border-bottom-color: #f84735;
 }
 
 .dashboard-content {
@@ -68,7 +68,7 @@
 .stat-card h3 {
   font-size: 36px;
   margin: 0 0 10px 0;
-  color: #667eea;
+  color: #f84735;
 }
 
 .stat-card p {
@@ -119,7 +119,7 @@
 
 .course-code {
   display: inline-block;
-  background: #667eea;
+  background: #f84735;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;

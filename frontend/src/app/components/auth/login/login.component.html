@@ -1,48 +1,53 @@
-<div class="login-container">
-  <div class="login-card">
-    <h2>Connexion</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          class="form-control"
-          [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-        />
-        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error">
-          Email invalide
-        </div>
-      </div>
+<div class="fullcontent">
+    <div class="headings">
+        <h1>StudyGenius AI</h1>
+        <h2>Bienvenue sur StudyGenius AI, votre plateforme d'apprentissage intelligente. Créez des cours personnalisés, générez des quiz interactifs et suivez vos progrès en temps réel. Transformez votre façon d'apprendre avec l'intelligence artificielle.</h2>
+    </div>
+    <div class="formbox">
+        <h3>Connexion</h3>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                formControlName="email"
+                name="email"
+                class="asd"
+                [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+            />
+            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error">
+                Email invalide
+            </div>
 
-      <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          class="form-control"
-          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-        />
-        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
-          Mot de passe requis (minimum 6 caractères)
-        </div>
-      </div>
+            <label for="password">Mot de passe</label>
+            <input
+                type="password"
+                id="password"
+                formControlName="password"
+                name="password"
+                class="asd"
+                [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            />
+            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
+                Mot de passe requis (minimum 6 caractères)
+            </div>
 
-      <div *ngIf="errorMessage" class="alert alert-error">
-        {{ errorMessage }}
-      </div>
+            <div *ngIf="errorMessage" class="error" style="margin-bottom: 1rem;">
+                {{ errorMessage }}
+            </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
-        Se connecter
-      </button>
-    </form>
-
-    <p class="register-link">
-      Pas encore de compte ? <a routerLink="/register">S'inscrire</a>
-    </p>
-  </div>
+            <input
+                id="btn"
+                type="submit"
+                name="submit"
+                value="Se connecter"
+                class="mainbox"
+                [disabled]="loginForm.invalid"
+            />
+            <label>Nouveau client ?</label>
+            <a routerLink="/register" class="mainbox">S'inscrire maintenant</a>
+        </form>
+    </div>
 </div>
 
 

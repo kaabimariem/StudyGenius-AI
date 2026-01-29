@@ -19,7 +19,7 @@
 }
 
 .back-link {
-  color: #f5576c;
+  color: #f84735;
   text-decoration: none;
   font-weight: 500;
 }
@@ -81,7 +81,7 @@
 
 .form-control:focus {
   outline: none;
-  border-color: #f5576c;
+  border-color: #f84735;
 }
 
 .form-control.invalid {
@@ -219,12 +219,12 @@ textarea.form-control {
 }
 
 .btn-primary {
-  background-color: #f5576c;
+  background-color: #f84735;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #e4465a;
+  background-color: #e6392a;
 }
 
 .btn-primary:disabled {

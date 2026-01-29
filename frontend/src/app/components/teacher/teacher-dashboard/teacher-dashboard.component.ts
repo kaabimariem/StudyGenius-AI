@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
 import { CoursesService } from '../../../services/courses.service';
 import { ExamsService } from '../../../services/exams.service';
 import { AuthService } from '../../../services/auth.service';
@@ -19,11 +20,14 @@ export class TeacherDashboardComponent implements OnInit {
   courses: Course[] = [];
   exams: Exam[] = [];
   currentUser: User | null = null;
+  activeSection: 'home' | 'courses' | 'exams' = 'home';
 
   constructor(
     private coursesService: CoursesService,
     private examsService: ExamsService,
     private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.currentUser = this.authService.getCurrentUser();
   }
@@ -31,6 +35,25 @@ export class TeacherDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadCourses();
     this.loadExams();
+    this.detectActiveSection();
+    
+    // Écouter les changements de route
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.detectActiveSection();
+      });
+  }
+
+  detectActiveSection(): void {
+    const url = this.router.url;
+    if (url.includes('/teacher/exams')) {
+      this.activeSection = 'exams';
+    } else if (url.includes('/teacher/courses')) {
+      this.activeSection = 'courses';
+    } else {
+      this.activeSection = 'home';
+    }
   }
 
   loadCourses(): void {

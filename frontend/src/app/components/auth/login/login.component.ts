@@ -24,6 +24,20 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+
+    // Si déjà connecté, rediriger vers le dashboard approprié
+    if (this.authService.isAuthenticated()) {
+      const user = this.authService.getCurrentUser();
+      if (user) {
+        if (user.role === 'student') {
+          this.router.navigate(['/student']);
+        } else if (user.role === 'teacher') {
+          this.router.navigate(['/teacher']);
+        } else if (user.role === 'admin') {
+          this.router.navigate(['/admin']);
+        }
+      }
+    }
   }
 
   onSubmit(): void {

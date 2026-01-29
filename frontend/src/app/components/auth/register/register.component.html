@@ -1,85 +1,91 @@
-<div class="register-container">
-  <div class="register-card">
-    <h2>Inscription</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          class="form-control"
-          [class.invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
-        />
-        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
-          Email invalide
-        </div>
-      </div>
+<div class="fullcontent">
+    <div class="headings">
+        <h1>StudyGenius AI</h1>
+        <h2>Rejoignez StudyGenius AI et découvrez une nouvelle façon d'apprendre. Créez votre compte et accédez à des outils d'apprentissage intelligents, des cours personnalisés et un suivi détaillé de vos progrès. Commencez votre parcours d'apprentissage dès aujourd'hui.</h2>
+    </div>
+    <div class="formbox">
+        <h3>Inscription</h3>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                formControlName="email"
+                name="email"
+                class="asd"
+                [class.invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+            />
+            <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
+                Email invalide
+            </div>
 
-      <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          class="form-control"
-          [class.invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-        />
-        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
-          Mot de passe requis (minimum 6 caractères)
-        </div>
-      </div>
+            <label for="password">Mot de passe</label>
+            <input
+                type="password"
+                id="password"
+                formControlName="password"
+                name="password"
+                class="asd"
+                [class.invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+            />
+            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
+                Mot de passe requis (minimum 6 caractères)
+            </div>
 
-      <div class="form-group">
-        <label for="firstName">Prénom</label>
-        <input
-          type="text"
-          id="firstName"
-          formControlName="firstName"
-          class="form-control"
-          [class.invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
-        />
-        <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="error">
-          Prénom requis
-        </div>
-      </div>
+            <label for="firstName">Prénom</label>
+            <input
+                type="text"
+                id="firstName"
+                formControlName="firstName"
+                name="firstName"
+                class="asd"
+                [class.invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+            />
+            <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="error">
+                Prénom requis
+            </div>
 
-      <div class="form-group">
-        <label for="lastName">Nom</label>
-        <input
-          type="text"
-          id="lastName"
-          formControlName="lastName"
-          class="form-control"
-          [class.invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
-        />
-        <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="error">
-          Nom requis
-        </div>
-      </div>
+            <label for="lastName">Nom</label>
+            <input
+                type="text"
+                id="lastName"
+                formControlName="lastName"
+                name="lastName"
+                class="asd"
+                [class.invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+            />
+            <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="error">
+                Nom requis
+            </div>
 
-      <div class="form-group">
-        <label for="role">Rôle</label>
-        <select id="role" formControlName="role" class="form-control">
-          <option [value]="UserRole.STUDENT">Étudiant</option>
-          <option [value]="UserRole.TEACHER">Enseignant</option>
-          <option [value]="UserRole.ADMIN">Administrateur</option>
-        </select>
-      </div>
+            <label for="role">Rôle</label>
+            <select
+                id="role"
+                formControlName="role"
+                name="role"
+                class="asd"
+            >
+                <option [value]="UserRole.STUDENT">Étudiant</option>
+                <option [value]="UserRole.TEACHER">Enseignant</option>
+                <option [value]="UserRole.ADMIN">Administrateur</option>
+            </select>
 
-      <div *ngIf="errorMessage" class="alert alert-error">
-        {{ errorMessage }}
-      </div>
+            <div *ngIf="errorMessage" class="error" style="margin-bottom: 1rem;">
+                {{ errorMessage }}
+            </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
-        S'inscrire
-      </button>
-    </form>
-
-    <p class="login-link">
-      Déjà un compte ? <a routerLink="/login">Se connecter</a>
-    </p>
-  </div>
+            <input
+                id="btn"
+                type="submit"
+                name="submit"
+                value="S'inscrire"
+                class="mainbox"
+                [disabled]="registerForm.invalid"
+            />
+            <label>Déjà un compte ?</label>
+            <a routerLink="/login" class="mainbox">Se connecter</a>
+        </form>
+    </div>
 </div>
 
 

@@ -1,23 +1,62 @@
 <div class="qcm-generator-container">
-  <h1>Générateur de QCM avec IA</h1>
-  <p *ngIf="courseTitle" class="course-title">📚 Cours: {{ courseTitle }}</p>
-  <p class="subtitle">Uploadez un document ou collez du texte pour générer automatiquement un QCM avec correction</p>
+  <div class="generator-header">
+    <div class="header-content">
+      <a (click)="goBack()" class="back-link">
+        <span class="back-icon">←</span>
+        <span>Retour</span>
+      </a>
+      <div class="header-title-section">
+        <h1>
+          <span class="header-icon">🤖</span>
+          Générateur de QCM avec IA
+        </h1>
+        <p class="subtitle">Uploadez un document ou collez du texte pour générer automatiquement un QCM avec correction</p>
+        <p *ngIf="courseTitle" class="course-title">
+          <span class="course-icon">📚</span>
+          Cours: {{ courseTitle }}
+        </p>
+      </div>
+    </div>
+  </div>
 
   <div *ngIf="!qcmResponse" class="input-section">
-    <div class="form-group">
-      <label for="fileInput">Ou sélectionnez un document (PDF, TXT, MD, CSV)</label>
-      <input
-        type="file"
-        id="fileInput"
-        accept=".pdf,.txt,.md,.csv,application/pdf,text/plain"
-        (change)="onFileSelected($event)"
-        class="form-control"
-      />
-      <small class="form-hint">Les fichiers PDF et texte sont supportés. Les fichiers DOCX ne sont pas encore supportés.</small>
+    <div class="section-header">
+      <h2>
+        <span class="section-icon">📤</span>
+        Charger votre contenu
+      </h2>
     </div>
 
     <div class="form-group">
-      <label for="documentText">Ou collez le texte du document</label>
+      <label for="fileInput">
+        <span class="label-icon">📁</span>
+        Sélectionnez un document (PDF, TXT, MD, CSV)
+      </label>
+      <div class="file-upload-wrapper">
+        <input
+          type="file"
+          id="fileInput"
+          accept=".pdf,.txt,.md,.csv,application/pdf,text/plain"
+          (change)="onFileSelected($event)"
+          class="file-input"
+        />
+        <label for="fileInput" class="file-upload-label">
+          <span class="upload-icon">📤</span>
+          <span>Choisir un fichier</span>
+        </label>
+        <small class="form-hint">Les fichiers PDF et texte sont supportés. Les fichiers DOCX ne sont pas encore supportés.</small>
+      </div>
+    </div>
+
+    <div class="divider">
+      <span>OU</span>
+    </div>
+
+    <div class="form-group">
+      <label for="documentText">
+        <span class="label-icon">📝</span>
+        Collez le texte du document
+      </label>
       <textarea
         id="documentText"
         [(ngModel)]="documentText"
@@ -28,7 +67,10 @@
     </div>
 
     <div class="form-group">
-      <label for="numberOfQuestions">Nombre de questions</label>
+      <label for="numberOfQuestions">
+        <span class="label-icon">🔢</span>
+        Nombre de questions
+      </label>
       <input
         type="number"
         id="numberOfQuestions"
@@ -40,29 +82,46 @@
     </div>
 
     <div *ngIf="errorMessage" class="alert alert-error">
-      {{ errorMessage }}
+      <span class="alert-icon">❌</span>
+      <span>{{ errorMessage }}</span>
     </div>
 
-    <button
-      class="btn btn-primary"
-      (click)="generateQcm()"
-      [disabled]="loading || (!documentText && !selectedFile)"
-    >
-      {{ loading ? 'Génération en cours...' : 'Générer le QCM' }}
-    </button>
+    <div class="form-actions">
+      <button
+        class="btn btn-primary"
+        (click)="generateQcm()"
+        [disabled]="loading || (!documentText && !selectedFile)"
+      >
+        <span class="btn-icon" *ngIf="!loading">✨</span>
+        <span *ngIf="loading" class="loading-spinner">⏳</span>
+        <span>{{ loading ? 'Génération en cours...' : 'Générer le QCM' }}</span>
+      </button>
+    </div>
   </div>
 
   <div *ngIf="qcmResponse && !showResults" class="qcm-section">
     <div class="qcm-header">
-      <h2>QCM Généré</h2>
-      <p class="summary">{{ qcmResponse.documentSummary }}</p>
-      <button class="btn btn-secondary" (click)="resetQcm()">Nouveau QCM</button>
+      <div class="header-top">
+        <h2>
+          <span class="header-icon">📋</span>
+          QCM Généré
+        </h2>
+        <button class="btn btn-secondary" (click)="resetQcm()">
+          <span>🔄</span>
+          <span>Nouveau QCM</span>
+        </button>
+      </div>
+      <div class="summary-box">
+        <p class="summary">{{ qcmResponse.documentSummary }}</p>
+      </div>
     </div>
 
     <form [formGroup]="qcmForm" (ngSubmit)="submitQcm()">
       <div class="questions-list" formArrayName="answers">
         <div class="question-item" *ngFor="let question of qcmResponse.questions; let i = index" [formGroupName]="i">
-          <h3>Question {{ i + 1 }}</h3>
+          <div class="question-header">
+            <span class="question-number">Question {{ i + 1 }}</span>
+          </div>
           <p class="question-text">{{ question.question }}</p>
 
           <div class="options-list">
@@ -72,8 +131,10 @@
                 formControlName="selectedAnswer"
                 [value]="option"
                 [name]="'question_' + i"
+                class="radio-input"
               />
-              <span>{{ option }}</span>
+              <span class="radio-custom"></span>
+              <span class="option-text">{{ option }}</span>
             </label>
           </div>
         </div>
@@ -89,12 +150,17 @@
 
   <div *ngIf="showResults && qcmResult" class="results-section">
     <div class="results-header">
-      <h2>Résultats du QCM</h2>
+      <h2>
+        <span class="header-icon">📊</span>
+        Résultats du QCM
+      </h2>
       <div class="score-display">
-        <span class="score">{{ qcmResult.score }}/{{ qcmResult.totalQuestions }}</span>
-        <span class="percentage">
-          ({{ ((qcmResult.score / qcmResult.totalQuestions) * 100).toFixed(0) }}%)
-        </span>
+        <div class="score-circle">
+          <span class="score">{{ qcmResult.score }}/{{ qcmResult.totalQuestions }}</span>
+          <span class="percentage">
+            {{ ((qcmResult.score / qcmResult.totalQuestions) * 100).toFixed(0) }}%
+          </span>
+        </div>
       </div>
     </div>
 
@@ -105,23 +171,35 @@
         [class.correct]="answer.selectedAnswer === qcmResult.questions[i].correctAnswer"
         [class.incorrect]="answer.selectedAnswer !== qcmResult.questions[i].correctAnswer"
       >
-        <h3>Question {{ i + 1 }}</h3>
+        <div class="result-header">
+          <span class="question-number">Question {{ i + 1 }}</span>
+          <span *ngIf="answer.selectedAnswer === qcmResult.questions[i].correctAnswer" class="result-badge correct-badge">
+            ✓ Correct
+          </span>
+          <span *ngIf="answer.selectedAnswer !== qcmResult.questions[i].correctAnswer" class="result-badge incorrect-badge">
+            ✗ Incorrect
+          </span>
+        </div>
         <p class="question-text">{{ qcmResult.questions[i].question }}</p>
         <div class="answer-info">
-          <p>
-            <strong>Votre réponse:</strong>
+          <div class="answer-row">
+            <span class="answer-label">Votre réponse:</span>
             <span [class.correct-answer]="answer.selectedAnswer === qcmResult.questions[i].correctAnswer"
-                  [class.wrong-answer]="answer.selectedAnswer !== qcmResult.questions[i].correctAnswer">
+                  [class.wrong-answer]="answer.selectedAnswer !== qcmResult.questions[i].correctAnswer"
+                  class="answer-value">
               {{ answer.selectedAnswer || 'Aucune réponse' }}
             </span>
-          </p>
-          <p>
-            <strong>Réponse correcte:</strong>
-            <span class="correct-answer">{{ qcmResult.questions[i].correctAnswer }}</span>
-          </p>
-          <p class="explanation">
-            <strong>Explication:</strong> {{ qcmResult.questions[i].explanation }}
-          </p>
+          </div>
+          <div class="answer-row">
+            <span class="answer-label">Réponse correcte:</span>
+            <span class="correct-answer answer-value">{{ qcmResult.questions[i].correctAnswer }}</span>
+          </div>
+          <div class="explanation">
+            <span class="explanation-icon">💡</span>
+            <div class="explanation-content">
+              <strong>Explication:</strong> {{ qcmResult.questions[i].explanation }}
+            </div>
+          </div>
         </div>
       </div>
     </div>

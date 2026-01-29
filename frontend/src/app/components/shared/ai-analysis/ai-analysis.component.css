@@ -50,7 +50,7 @@
 
 .form-control:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #f84735;
 }
 
 textarea.form-control {
@@ -67,12 +67,12 @@ textarea.form-control {
 }
 
 .btn-primary {
-  background-color: #667eea;
+  background-color: #f84735;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #5568d3;
+  background-color: #e6392a;
 }
 
 .btn:disabled {
@@ -127,7 +127,7 @@ textarea.form-control {
 .stat-value {
   font-size: 24px;
   font-weight: bold;
-  color: #667eea;
+  color: #f84735;
 }
 
 .summary h3 {

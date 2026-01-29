@@ -15,10 +15,55 @@
   </nav>
 
   <main class="dashboard-content">
-    <div class="admin-panel">
-      <h2>Panneau d'administration</h2>
-      <p>Gérez tous les aspects de la plateforme pédagogique.</p>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>{{ courses.length }}</h3>
+        <p>Tous les Cours</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ exams.length }}</h3>
+        <p>Tous les Examens</p>
+      </div>
     </div>
+
+    <section class="courses-section">
+      <div class="section-header">
+        <h2>Gestion des Cours</h2>
+        <a routerLink="/teacher/courses/new" class="btn btn-primary btn-add-course">
+          <span class="btn-icon">➕</span>
+          <span>Ajouter un cours</span>
+        </a>
+      </div>
+      <div class="courses-grid" *ngIf="courses.length > 0; else noCourses">
+        <div class="course-card" *ngFor="let course of courses" [routerLink]="['/teacher/courses', course.id]">
+          <h3>{{ course.title }}</h3>
+          <p>{{ course.description }}</p>
+          <span class="course-code">{{ course.code }}</span>
+        </div>
+      </div>
+      <ng-template #noCourses>
+        <p>Aucun cours disponible pour le moment.</p>
+      </ng-template>
+    </section>
+
+    <section class="exams-section">
+      <div class="section-header">
+        <h2>Gestion des Examens</h2>
+        <a routerLink="/teacher/exams/new" class="btn btn-primary btn-add-course">
+          <span class="btn-icon">➕</span>
+          <span>Ajouter un examen</span>
+        </a>
+      </div>
+      <div class="exams-list" *ngIf="exams.length > 0; else noExams">
+        <div class="exam-card" *ngFor="let exam of exams" [routerLink]="['/teacher/exams', exam.id]">
+          <h3>{{ exam.title }}</h3>
+          <p>{{ exam.description }}</p>
+        </div>
+      </div>
+      <ng-template #noExams>
+        <p>Aucun examen disponible pour le moment.</p>
+      </ng-template>
+    </section>
   </main>
 </div>
 

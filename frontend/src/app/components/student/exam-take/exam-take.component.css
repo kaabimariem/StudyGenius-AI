@@ -12,7 +12,7 @@
 }
 
 .back-link {
-  color: #667eea;
+  color: #f84735;
   text-decoration: none;
   font-weight: 500;
 }
@@ -23,7 +23,7 @@
 
 .timer {
   padding: 10px 20px;
-  background: #667eea;
+  background: #f84735;
   color: white;
   border-radius: 5px;
   font-weight: bold;
@@ -128,12 +128,12 @@
 }
 
 .btn-primary {
-  background-color: #667eea;
+  background-color: #f84735;
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: #5568d3;
+  background-color: #e6392a;
 }
 
 

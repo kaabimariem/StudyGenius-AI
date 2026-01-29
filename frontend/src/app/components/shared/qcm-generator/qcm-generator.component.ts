@@ -205,5 +205,16 @@ export class QcmGeneratorComponent implements OnInit {
     this.selectedFile = null;
     this.answers.clear();
   }
+
+  goBack(): void {
+    const url = this.router.url;
+    if (url.includes('/teacher')) {
+      this.router.navigate(['/teacher']);
+    } else if (url.includes('/student')) {
+      this.router.navigate(['/student']);
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
 }
 

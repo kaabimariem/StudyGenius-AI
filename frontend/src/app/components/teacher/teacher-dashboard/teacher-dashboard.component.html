@@ -15,35 +15,103 @@
   </nav>
 
   <main class="dashboard-content">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>{{ courses.length }}</h3>
-        <p>Mes Cours</p>
+    <!-- Section Accueil - Affiche les statistiques et les deux sections -->
+    <div *ngIf="activeSection === 'home'" class="home-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>{{ courses.length }}</h3>
+          <p>Mes Cours</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ exams.length }}</h3>
+          <p>Mes Examens</p>
+        </div>
       </div>
-      <div class="stat-card">
-        <h3>{{ exams.length }}</h3>
-        <p>Mes Examens</p>
-      </div>
+
+      <section class="courses-section">
+        <div class="section-header">
+          <h2>Mes Cours</h2>
+          <a routerLink="/teacher/courses/new" class="btn btn-primary btn-add-course">
+            <span class="btn-icon">➕</span>
+            <span>Ajouter un cours</span>
+          </a>
+        </div>
+        <div class="courses-grid">
+          <a routerLink="/teacher/courses/new" class="course-card add-course-card">
+            <div class="add-course-content">
+              <span class="add-icon">➕</span>
+              <h3>Ajouter un cours</h3>
+              <p>Créer un nouveau cours</p>
+            </div>
+          </a>
+          <div class="course-card" *ngFor="let course of courses" [routerLink]="['/teacher/courses', course.id]">
+            <h3>{{ course.title }}</h3>
+            <p>{{ course.description }}</p>
+            <span class="course-code">{{ course.code }}</span>
+          </div>
+        </div>
+        <div *ngIf="courses.length === 0" class="no-courses-message">
+          <p>Aucun autre cours créé pour le moment.</p>
+        </div>
+      </section>
+
+      <section class="exams-section">
+        <div class="section-header">
+          <h2>Mes Examens</h2>
+          <a routerLink="/teacher/exams/new" class="btn btn-primary btn-add-course">
+            <span class="btn-icon">➕</span>
+            <span>Ajouter un examen</span>
+          </a>
+        </div>
+        <div class="exams-list" *ngIf="exams.length > 0; else noExams">
+          <div class="exam-card" *ngFor="let exam of exams" [routerLink]="['/teacher/exams', exam.id]">
+            <h3>{{ exam.title }}</h3>
+            <p>{{ exam.description }}</p>
+          </div>
+        </div>
+        <ng-template #noExams>
+          <p>Aucun examen créé pour le moment.</p>
+        </ng-template>
+      </section>
     </div>
 
-    <section class="courses-section">
-      <h2>Mes Cours</h2>
-      <a routerLink="/teacher/courses/new" class="btn btn-primary">Créer un nouveau cours</a>
-      <div class="courses-grid" *ngIf="courses.length > 0; else noCourses">
+    <!-- Section Cours - Affiche seulement les cours -->
+    <section *ngIf="activeSection === 'courses'" class="courses-section">
+      <div class="section-header">
+        <h2>Mes Cours</h2>
+        <a routerLink="/teacher/courses/new" class="btn btn-primary btn-add-course">
+          <span class="btn-icon">➕</span>
+          <span>Ajouter un cours</span>
+        </a>
+      </div>
+      <div class="courses-grid">
+        <a routerLink="/teacher/courses/new" class="course-card add-course-card">
+          <div class="add-course-content">
+            <span class="add-icon">➕</span>
+            <h3>Ajouter un cours</h3>
+            <p>Créer un nouveau cours</p>
+          </div>
+        </a>
         <div class="course-card" *ngFor="let course of courses" [routerLink]="['/teacher/courses', course.id]">
           <h3>{{ course.title }}</h3>
           <p>{{ course.description }}</p>
           <span class="course-code">{{ course.code }}</span>
         </div>
       </div>
-      <ng-template #noCourses>
+      <div *ngIf="courses.length === 0" class="no-courses-message">
         <p>Aucun cours créé pour le moment.</p>
-      </ng-template>
+      </div>
     </section>
 
-    <section class="exams-section">
-      <h2>Mes Examens</h2>
-      <a routerLink="/teacher/exams/new" class="btn btn-primary">Créer un nouvel examen</a>
+    <!-- Section Examens - Affiche seulement les examens -->
+    <section *ngIf="activeSection === 'exams'" class="exams-section">
+      <div class="section-header">
+        <h2>Mes Examens</h2>
+        <a routerLink="/teacher/exams/new" class="btn btn-primary btn-add-course">
+          <span class="btn-icon">➕</span>
+          <span>Ajouter un examen</span>
+        </a>
+      </div>
       <div class="exams-list" *ngIf="exams.length > 0; else noExams">
         <div class="exam-card" *ngFor="let exam of exams" [routerLink]="['/teacher/exams', exam.id]">
           <h3>{{ exam.title }}</h3>

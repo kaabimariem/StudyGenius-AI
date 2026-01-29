@@ -4,7 +4,7 @@
 }
 
 .dashboard-header {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: #f84735;
   color: white;
   padding: 20px 40px;
   display: flex;
@@ -40,8 +40,8 @@
 
 .dashboard-nav a:hover,
 .dashboard-nav a.active {
-  color: #f5576c;
-  border-bottom-color: #f5576c;
+  color: #f84735;
+  border-bottom-color: #f84735;
 }
 
 .dashboard-content {
@@ -68,7 +68,7 @@
 .stat-card h3 {
   font-size: 36px;
   margin: 0 0 10px 0;
-  color: #f5576c;
+  color: #f84735;
 }
 
 .stat-card p {
@@ -81,10 +81,20 @@
   margin-bottom: 40px;
 }
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
 .courses-section h2,
 .exams-section h2 {
-  margin-bottom: 20px;
+  margin: 0;
   color: #333;
+  font-size: 24px;
 }
 
 .courses-grid {
@@ -101,11 +111,62 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+  color: inherit;
 }
 
 .course-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.add-course-card {
+  background: linear-gradient(135deg, #f84735 0%, #ff6b5a 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.add-course-card:hover {
+  background: linear-gradient(135deg, #e6392a 0%, #f84735 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-5px) scale(1.02);
+}
+
+.add-course-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-icon {
+  font-size: 48px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.add-course-card h3 {
+  margin: 0;
+  color: white;
+  font-size: 20px;
+}
+
+.add-course-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
+
+.no-courses-message {
+  margin-top: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
 }
 
 .course-card h3 {
@@ -120,7 +181,7 @@
 
 .course-code {
   display: inline-block;
-  background: #f5576c;
+  background: #f84735;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
@@ -170,12 +231,35 @@
 }
 
 .btn-primary {
-  background-color: #f5576c;
+  background-color: #f84735;
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: #e4465a;
+  background-color: #e6392a;
+}
+
+.btn-add-course {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(248, 71, 53, 0.3);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.btn-add-course:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(248, 71, 53, 0.4);
+  background-color: #e6392a;
+}
+
+.btn-icon {
+  font-size: 18px;
+  line-height: 1;
 }
 
 .btn-secondary {
