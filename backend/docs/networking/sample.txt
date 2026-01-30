@@ -1,0 +1,1 @@
+TCP is connection-oriented. UDP is connectionless. A router forwards packets. DNS resolves names to IP addresses. HTTP uses request/response.

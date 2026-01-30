@@ -1,0 +1,71 @@
+Metadata-Version: 2.4
+Name: ai-quiz-generator
+Version: 0.1.0
+Summary: Production-ready backend-only AI Quiz Generator (FastAPI + Groq + RAG)
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: uvicorn[standard]>=0.30.0
+Requires-Dist: pydantic>=2.7.0
+Requires-Dist: pydantic-settings>=2.3.0
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: groq>=0.9.0
+Requires-Dist: sentence-transformers>=3.0.0
+Requires-Dist: faiss-cpu>=1.8.0.post1
+Requires-Dist: numpy>=1.26.0
+Requires-Dist: tiktoken>=0.7.0
+Requires-Dist: pypdf>=4.2.0
+Requires-Dist: python-docx>=1.1.2
+Requires-Dist: beautifulsoup4>=4.12.3
+Requires-Dist: lxml>=5.2.2
+Requires-Dist: tenacity>=8.3.0
+Provides-Extra: dev
+Requires-Dist: ruff>=0.6.9; extra == "dev"
+Requires-Dist: pytest>=8.2.0; extra == "dev"
+Requires-Dist: httpx>=0.27.0; extra == "dev"
+
+# AI Quiz Generator (Backend)
+
+FastAPI backend that generates *exactly 15* quiz questions using Groq (LLaMA 3 70B) with RAG over local documents.
+
+## Quickstart (Windows PowerShell)
+
+```powershell
+cd e:\projet_tekup\backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -U pip
+pip install -e .
+copy .env.example .env
+# edit .env and set GROQ_API_KEY
+
+# build FAISS indexes (per field)
+python -m app.scripts.build_indexes
+
+# run API
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Open `http://localhost:8000/static/index.html` to test.
+
+## API
+
+### POST `/generate-quiz`
+
+Request body:
+
+```json
+{
+	"field": "networking",
+	"level": "beginner",
+	"difficulty": "easy",
+	"quiz_type": "mcq",
+	"include_explanations": true
+}
+```
+
+Returns strict JSON with quiz metadata + exactly 15 questions.
+
+## Notes
+- Documents go under `docs/<field>/` (pdf, docx, html, txt).
+- FAISS indexes persist under `storage/faiss/<field>/`.

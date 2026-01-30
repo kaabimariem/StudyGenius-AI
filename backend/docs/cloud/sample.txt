@@ -1,0 +1,1 @@
+Cloud computing provides on-demand compute, storage, and networking. Virtualization isolates workloads. IaaS, PaaS, and SaaS are service models.

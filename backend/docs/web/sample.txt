@@ -1,0 +1,1 @@
+HTTP methods include GET and POST. Cookies store session info. TLS secures transport. REST uses resources and representations.

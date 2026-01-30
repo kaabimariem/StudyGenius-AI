@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Secrets
+.env
+
+# Local indexes / artifacts
+storage/
+
+# OS
+.DS_Store
+Thumbs.db

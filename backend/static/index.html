@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Quiz Generator (Test UI)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 24px; background: #0b1220; color: #e6edf6; }
+    .card { max-width: 980px; margin: 0 auto; background: #111a2e; border: 1px solid #243152; border-radius: 12px; padding: 18px; }
+    h1 { font-size: 18px; margin: 0 0 12px; }
+    .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    label { font-size: 12px; color: #b7c3dd; display: block; margin-bottom: 6px; }
+    select, input[type="checkbox"] { width: 100%; }
+    select { padding: 8px; border-radius: 8px; border: 1px solid #2a3a63; background: #0b1220; color: #e6edf6; }
+    .actions { display: flex; gap: 10px; margin-top: 12px; align-items: center; }
+    button { padding: 10px 12px; border-radius: 10px; border: 1px solid #2a3a63; background: #1c2a4a; color: #e6edf6; cursor: pointer; }
+    button:hover { background: #23355f; }
+    pre { margin-top: 14px; background: #060b16; border: 1px solid #243152; border-radius: 12px; padding: 12px; overflow: auto; max-height: 60vh; }
+    .small { font-size: 12px; color: #b7c3dd; }
+    .span2 { grid-column: span 2; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>AI Quiz Generator — Test UI</h1>
+    <div class="row">
+      <div>
+        <label>Field</label>
+        <select id="field">
+          <option value="networking">networking</option>
+          <option value="cloud">cloud</option>
+          <option value="web">web</option>
+          <option value="mobile">mobile</option>
+        </select>
+      </div>
+      <div>
+        <label>Level</label>
+        <select id="level">
+          <option value="beginner">beginner</option>
+          <option value="intermediate">intermediate</option>
+          <option value="advanced">advanced</option>
+        </select>
+      </div>
+      <div>
+        <label>Difficulty</label>
+        <select id="difficulty">
+          <option value="easy">easy</option>
+          <option value="medium">medium</option>
+          <option value="hard">hard</option>
+        </select>
+      </div>
+      <div>
+        <label>Quiz type</label>
+        <select id="quiz_type">
+          <option value="mcq">mcq</option>
+          <option value="true_false">true_false</option>
+          <option value="short_answer">short_answer</option>
+        </select>
+      </div>
+      <div>
+        <label>Include explanations</label>
+        <input id="include_explanations" type="checkbox" checked />
+        <div class="small">When off, explanation keys omitted.</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="btn">Generate Quiz</button>
+      <span id="status" class="small"></span>
+    </div>
+
+    <pre id="out">{}</pre>
+  </div>
+
+<script>
+  const out = document.getElementById('out');
+  const statusEl = document.getElementById('status');
+
+  document.getElementById('btn').addEventListener('click', async () => {
+    statusEl.textContent = 'Calling /generate-quiz ...';
+    out.textContent = '';
+
+    const payload = {
+      field: document.getElementById('field').value,
+      level: document.getElementById('level').value,
+      difficulty: document.getElementById('difficulty').value,
+      quiz_type: document.getElementById('quiz_type').value,
+      include_explanations: document.getElementById('include_explanations').checked,
+    };
+
+    try {
+      const res = await fetch('/generate-quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); } catch { data = { raw: text }; }
+
+      out.textContent = JSON.stringify(data, null, 2);
+      statusEl.textContent = res.ok ? 'OK' : `Error ${res.status}`;
+    } catch (e) {
+      statusEl.textContent = 'Network error';
+      out.textContent = String(e);
+    }
+  });
+</script>
+</body>
+</html>
